@@ -22,6 +22,7 @@ public class ai
 		int row = 0;
 		int column = 0;
 		int randNum = rd.nextInt(2);
+		//Vertical ship
 		if (randNum == 0)
 		{
 			column = rd.nextInt(10) + 1;
@@ -35,6 +36,7 @@ public class ai
 				this.placeShip(size, shipName);
 			}
 		}
+		//Horizontal Ship
 		if (randNum == 1)
 		{
 			column = rd.nextInt(10 - size) + 1;

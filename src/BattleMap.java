@@ -87,15 +87,16 @@ public class BattleMap
 	}
 	public void addShip(int startC, int startR, int endC, int endR, String ship, int shipSize)
 	{
+		//Horizontal
 		if (startR - endR == 0)
 		{
 			if (Math.abs(startC - endC) == shipSize - 1)
 			{
 				for (int i = startC; i <= endC; i++)
 				{
-					if (map[startC][i] == " -")
+					if (map[i][startR] == " -")
 					{
-						map[startC][i] = ship;
+						map[i][startR] = ship;
 					}
 					else
 					{
@@ -105,15 +106,16 @@ public class BattleMap
 				}
 			}
 		}
+		//Vertical 
 		if (startC - endC == 0)
 		{
 			if (Math.abs(startR - endR) == shipSize - 1)
 			{
 				for (int i = startR; i <= endR; i++)
 				{
-					if (map[i][startR] == " -")
+					if (map[startC][i] == " -")
 					{
-						map[i][startR] = ship;
+						map[startC][i] = ship;
 					}
 					else
 					{
