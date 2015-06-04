@@ -1,6 +1,6 @@
 public class BattleMap
 {
-	private String[][] map = new String[11][11];
+	private String[][] map = new String[11][11]; //The first is row, second is column
 	private int aircraftHp = 5;
 	private int battleshipHp = 4;
 	private int destroyerHp = 3;
@@ -85,48 +85,48 @@ public class BattleMap
 			}
 		}
 	}
-	public void addShip(int startC, int startR, int endC, int endR, String ship, int shipSize)
+	public void addShip(int startR, int startC, int endR, int endC, String ship, int shipSize)
 	{
-		//Horizontal
-		if (startR - endR == 0)
-		{
-			if (Math.abs(startC - endC) == shipSize - 1)
-			{
-				for (int i = startC; i <= endC; i++)
-				{
-					if (map[i][startR] == " -")
-					{
-						map[i][startR] = ship;
-					}
-					else
-					{
-						System.out.println("Error: Illegal placement of ship");
-						break;
-					}
-				}
-			}
-		}
-		//Vertical 
+		//Vertical
 		if (startC - endC == 0)
 		{
 			if (Math.abs(startR - endR) == shipSize - 1)
 			{
 				for (int i = startR; i <= endR; i++)
 				{
-					if (map[startC][i] == " -")
+					if (map[i][startC] == " -")
 					{
-						map[startC][i] = ship;
+						map[i][startC] = ship;
 					}
 					else
 					{
-						System.out.println("Error: Illegal placement of ship");
+						System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
+						break;
+					}
+				}
+			}
+		}
+		//Horizontal 
+		if (startR - endR == 0)
+		{
+			if (Math.abs(startC - endC) == shipSize - 1)
+			{
+				for (int i = startC; i <= endC; i++)
+				{
+					if (map[startR][i] == " -")
+					{
+						map[startR][i] = ship;
+					}
+					else
+					{
+						System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
 						break;
 					}
 				}
 			}
 		}
 	}
-	public boolean okPlacementColumn(int column, int row, int endRow)
+	public boolean okPlacementColumn(int row, int column, int endRow)
 	{
 		if (endRow >= 11)
 		{
@@ -134,14 +134,15 @@ public class BattleMap
 		}
 		for (int i = row; i <= endRow; i++)
 		{
-			if (!(map[i][row] == " -"))
+			if (!(map[i][column] == " -"))
 			{
 				return false;
 			}
 		}
+		System.out.println("Okay to place @ " + row + ", " + column);
 		return true;
 	}
-	public boolean okPlacementRow(int column, int row, int endColumn)
+	public boolean okPlacementRow(int row, int column, int endColumn)
 	{
 		if (endColumn >= 11)
 		{
@@ -149,60 +150,61 @@ public class BattleMap
 		}
 		for (int i = column; i <= endColumn; i++)
 		{
-			if (!(map[column][i] == " -"))
+			if (!(map[row][i] == " -"))
 			{
 				return false;
 			}
 		}
+		System.out.println("Okay to place @ " + row + ", " + column);
 		return true;
 	}
-	public String checkGuess(int column, int row)
+	public String checkGuess(int row, int column)
 	{
-		return map[column][row];
+		return map[row][column];
 	}
 	//rename? true iff a ship is destroyed, false otherwise
-	public boolean hit(int column, int row)
+	public boolean hit(int row, int column)
 	{
-		if (map[column][row] == " A")
+		if (map[row][column] == " A")
 		{
 			--aircraftHp;
-			map[column][row] = " X";
+			map[row][column] = " X";
 			if (aircraftHp == 0)
 			{
 				return true;
 			}
 		}
-		if (map[column][row] == " B")
+		if (map[row][column] == " B")
 		{
 			--battleshipHp;
-			map[column][row] = " X";
+			map[row][column] = " X";
 			if (battleshipHp == 0)
 			{
 				return true;
 			}
 		}
-		if (map[column][row] == " D")
+		if (map[row][column] == " D")
 		{
 			--destroyerHp;
-			map[column][row] = " X";
+			map[row][column] = " X";
 			if (destroyerHp == 0)
 			{
 				return true;
 			}
 		}
-		if (map[column][row] == " S")
+		if (map[row][column] == " S")
 		{
 			--subHp;
-			map[column][row] = " X";
+			map[row][column] = " X";
 			if (subHp == 0)
 			{
 				return true;
 			}
 		}
-		if (map[column][row] == " P")
+		if (map[row][column] == " P")
 		{
 			--patrolHp;
-			map[column][row] = " X";
+			map[row][column] = " X";
 			if (patrolHp == 0)
 			{
 				return true;
@@ -210,9 +212,34 @@ public class BattleMap
 		}
 		return false;
 	}
-	public void miss(int column, int row)
+	public void miss(int row, int column)
 	{
-		map[column][row] = " 0";
+		map[row][column] = " 0";
+	}
+	public boolean hasWon()
+	{
+		if (aircraftHp == 0 && battleshipHp == 0 && destroyerHp == 0 && subHp == 0 && patrolHp == 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	public boolean reasonableGuess(int row, int column)
+	{
+		if (column + 1 >= 11 || checkGuess(row, column + 1) != " 0")
+		{
+			if (row + 1 >= 11 || checkGuess(row + 1, column) != " 0")
+			{
+				if (column - 1 <= 0 || checkGuess(row, column - 1) != " 0")
+				{
+					if (row - 1 <= 0 || checkGuess(row - 1, column) != " 0")
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	public void printMap()
 	{

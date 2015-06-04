@@ -7,13 +7,11 @@ public class ai
 	private boolean lastHit = false;
 	private int[] lastGuess = new int[2];
 	private int[] firstHit = new int[2];
-	private int counter = 0;
 	private int direction = 0; // East = 1, South = 2, West = 3, North 4
 	
 	public ai(BattleMap oceanMap)
 	{
 		map = oceanMap;
-		
 	}
 	
 	public void placeShip(int size, String shipName)
@@ -27,9 +25,9 @@ public class ai
 		{
 			column = rd.nextInt(10) + 1;
 			row = rd.nextInt(10 - size) + 1;
-			if (map.okPlacementColumn(column, row, row + (size -1)))
+			if (map.okPlacementColumn(row, column, row + (size -1)))
 			{
-				map.addShip(column, row, column, row + (size -1), shipName, size);
+				map.addShip(row, column, row + (size -1), column, shipName, size);
 			}
 			else
 			{
@@ -41,9 +39,9 @@ public class ai
 		{
 			column = rd.nextInt(10 - size) + 1;
 			row = rd.nextInt(10) + 1;
-			if (map.okPlacementRow(column, row, column + (size -1)))
+			if (map.okPlacementRow(row, column, column + (size -1)))
 			{
-				map.addShip(column, row, column + (size -1), row, shipName, size);
+				map.addShip(row, column, row, column + (size -1), shipName, size);
 			}
 			else
 			{
@@ -56,271 +54,311 @@ public class ai
 		Random rd = new Random();
 		int row = rd.nextInt(10) + 1;
 		int column = rd.nextInt(10) + 1;
-		if (direction != 0)
+//		if (direction != 0)
+//		{
+//			direction = continueGuess(map, lastGuess[0], lastGuess[1], direction);
+//			
+//		}
+		if (lastHit == true)
 		{
-			direction = continueGuess(map, lastGuess[0], lastGuess[1], direction);
-			
+			continueGuess(map, lastGuess[0], lastGuess[1]);
 		}
-		if (lastHit == false)
+		else if (lastHit == false)
 		{
-			if (map.checkGuess(column, row) == " 0")
+			if (map.checkGuess(row, column) == " 0" || map.checkGuess(row, column) == " X"
+					|| map.reasonableGuess(row, column) == false)
 			{
 				this.makeGuess(map);
 			}
-			if (map.checkGuess(column, row) == " -")
+			else if (map.checkGuess(row, column) == " -")
 			{
-				map.miss(column, row);
+				map.miss(row, column);
 				lastHit = false;
 			}
 			else
 			{
-				if (map.hit(column, row))
+				if (map.hit(row, column))
 				{
 					lastHit = false;
 				}
 				else
 				{
 					lastHit = true;
+					lastGuess[0] = row;
+					lastGuess[1] = column;
+					firstHit[0] = row;
+					firstHit[1] = column;
+					direction = 1;
 				}
-				lastGuess[0] = column;
-				lastGuess[1] = row;
-				firstHit[0] = column;
-				firstHit[1] = row;				
+								
 			}
 		}
-		if (lastHit == true)
-		{
-			if (lastGuess[0] + 1 <= 10)
-			{
-			// make 2 guess methods
-				if (counter == 0)
-				{
-					if (map.checkGuess(lastGuess[0] + 1, lastGuess[1]) == " 0")
-					{
-						this.makeGuess(map);
-					}
-					if (map.checkGuess(lastGuess[0] + 1, lastGuess[1]) == " -")
-					{
-						map.miss(lastGuess[0] + 1, lastGuess[1]);
-					}
-					else
-					{
-						if (map.hit(lastGuess[0] + 1, lastGuess[1]))
-						{
-							lastHit = false;
-						}
-						else
-						{
-							lastHit = true;
-							direction = 1;
-						}
-						lastGuess[0] = lastGuess[0] + 1;
-//						lastGuess[1] = lastGuess[1];					
-					}
-					counter++;
-				}
-			}
-			if (lastGuess[1] + 1 <= 10)
-			{
-				if (counter == 1)
-				{
-					if (map.checkGuess(lastGuess[0], lastGuess[1] + 1) == " 0")
-					{
-						this.makeGuess(map);
-					}
-					if (map.checkGuess(lastGuess[0], lastGuess[1] + 1) == " -")
-					{
-						map.miss(lastGuess[0], lastGuess[1] + 1);
-					}
-					else
-					{
-						if (map.hit(lastGuess[0], lastGuess[1] + 1))
-						{
-							lastHit = false;
-						}
-						else
-						{
-							lastHit = true;
-							direction = 2;
-						}
-//						lastGuess[0] = lastGuess[0];
-						lastGuess[1] = lastGuess[1] + 1;					
-					}
-				}
-			}
-			if (lastGuess[0] - 1 >= 1)
-			{
-				if (counter == 2)
-				{
-					if (map.checkGuess(lastGuess[0] - 1, lastGuess[1]) == " 0")
-					{
-						this.makeGuess(map);
-					}
-					if (map.checkGuess(lastGuess[0] - 1, lastGuess[1]) == " -")
-					{
-						map.miss(lastGuess[0] - 1, lastGuess[1]);
-					}
-					else
-					{
-						if (map.hit(lastGuess[0] - 1, lastGuess[1]))
-						{
-							lastHit = false;
-						}
-						else
-						{
-							lastHit = true;
-							direction = 3;
-						}
-						lastGuess[0] = lastGuess[0] - 1;
-//						lastGuess[1] = lastGuess[1];					
-					}
-				}
-			}
-			if (lastGuess[1] - 1 >= 1)
-			{
-				if (counter == 3)
-				{
-					if (map.checkGuess(lastGuess[0], lastGuess[1] - 1) == " 0")
-					{
-						this.makeGuess(map);
-					}
-					if (map.checkGuess(lastGuess[0], lastGuess[1] - 1) == " -")
-					{
-						map.miss(lastGuess[0], lastGuess[1] - 1);
-					}
-					else
-					{
-						if (map.hit(lastGuess[0], lastGuess[1] - 1))
-						{
-							lastHit = false;
-						}
-						else
-						{
-							lastHit = true;
-							direction = 4;
-						}
-//						lastGuess[0] = lastGuess[0];
-						lastGuess[1] = lastGuess[1] - 1;					
-					}
-				}
-			}
-			else
-			{
-				this.makeGuess(map);
-			}
-		}
+
+//		if (lastHit == true)
+//		{
+//			if (lastGuess[0] + 1 <= 10)
+//			{
+//			// make 2 guess methods
+//				if (counter == 0)
+//				{
+//					if (map.checkGuess(lastGuess[0] + 1, lastGuess[1]) == " 0")
+//					{
+//						this.makeGuess(map);
+//					}
+//					if (map.checkGuess(lastGuess[0] + 1, lastGuess[1]) == " -")
+//					{
+//						map.miss(lastGuess[0] + 1, lastGuess[1]);
+//					}
+//					else
+//					{
+//						if (map.hit(lastGuess[0] + 1, lastGuess[1]))
+//						{
+//							lastHit = false;
+//						}
+//						else
+//						{
+//							lastHit = true;
+//							direction = 1;
+//						}
+//						lastGuess[0] = lastGuess[0] + 1;
+////						lastGuess[1] = lastGuess[1];					
+//					}
+//					counter++;
+//				}
+//			}
+//			if (lastGuess[1] + 1 <= 10)
+//			{
+//				if (counter == 1)
+//				{
+//					if (map.checkGuess(lastGuess[0], lastGuess[1] + 1) == " 0")
+//					{
+//						this.makeGuess(map);
+//					}
+//					if (map.checkGuess(lastGuess[0], lastGuess[1] + 1) == " -")
+//					{
+//						map.miss(lastGuess[0], lastGuess[1] + 1);
+//					}
+//					else
+//					{
+//						if (map.hit(lastGuess[0], lastGuess[1] + 1))
+//						{
+//							lastHit = false;
+//						}
+//						else
+//						{
+//							lastHit = true;
+//							direction = 2;
+//						}
+////						lastGuess[0] = lastGuess[0];
+//						lastGuess[1] = lastGuess[1] + 1;					
+//					}
+//				}
+//			}
+//			if (lastGuess[0] - 1 >= 1)
+//			{
+//				if (counter == 2)
+//				{
+//					if (map.checkGuess(lastGuess[0] - 1, lastGuess[1]) == " 0")
+//					{
+//						this.makeGuess(map);
+//					}
+//					if (map.checkGuess(lastGuess[0] - 1, lastGuess[1]) == " -")
+//					{
+//						map.miss(lastGuess[0] - 1, lastGuess[1]);
+//					}
+//					else
+//					{
+//						if (map.hit(lastGuess[0] - 1, lastGuess[1]))
+//						{
+//							lastHit = false;
+//						}
+//						else
+//						{
+//							lastHit = true;
+//							direction = 3;
+//						}
+//						lastGuess[0] = lastGuess[0] - 1;
+////						lastGuess[1] = lastGuess[1];					
+//					}
+//				}
+//			}
+//			if (lastGuess[1] - 1 >= 1)
+//			{
+//				if (counter == 3)
+//				{
+//					if (map.checkGuess(lastGuess[0], lastGuess[1] - 1) == " 0")
+//					{
+//						this.makeGuess(map);
+//					}
+//					if (map.checkGuess(lastGuess[0], lastGuess[1] - 1) == " -")
+//					{
+//						map.miss(lastGuess[0], lastGuess[1] - 1);
+//					}
+//					else
+//					{
+//						if (map.hit(lastGuess[0], lastGuess[1] - 1))
+//						{
+//							lastHit = false;
+//						}
+//						else
+//						{
+//							lastHit = true;
+//							direction = 4;
+//						}
+////						lastGuess[0] = lastGuess[0];
+//						lastGuess[1] = lastGuess[1] - 1;					
+//					}
+//				}
+//			}
+//			else
+//			{
+//				this.makeGuess(map);
+//			}
+//		}
 		
 	}
-	public int continueGuess(BattleMap map, int column, int row, int direction)
+	public int continueGuess(BattleMap map, int row, int column)
 	{
 		if (direction == 1)
 		{
-			if (map.checkGuess(column + 1, row) == " -")
+			if (column + 1 >= 11)
 			{
-				map.miss(column + 1, row);
-				lastHit = false;
+				direction++;
+				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(column + 1, row) == " 0" || map.checkGuess(column + 1, row) == " X")
+			if (map.checkGuess(row, column + 1) == " -")
 			{
-				//go back to first hit
+				map.miss(row, column + 1);
 				direction = 3;
-				column = firstHit[0];
-				row = firstHit[1];
-				continueGuess(map, column, row, direction);
+				lastGuess[0] = firstHit[0];
+				lastGuess[1] = firstHit[1];		
 			}
-			else
-			{
-				if (map.hit(column + 1, row))
-				{
-					lastHit = false;
-				}
-				else
-				{
-					lastHit = true;
-					return direction;
-				}
-			}
-		}
-		if (direction == 2)
-		{
-			if (map.checkGuess(column, row + 1) == " -")
-			{
-				map.miss(column, row + 1);
-				lastHit = false;
-			}
-			if (map.checkGuess(column, row + 1) == " 0" || map.checkGuess(column, row + 1) == " X")
+			else if (map.checkGuess(row, column + 1) == " 0" || map.checkGuess(row, column + 1) == " X")
 			{
 				//go back to first hit
-				direction = 4;
-				column = firstHit[0];
-				row = firstHit[1];
-				continueGuess(map, column, row, direction);
+				direction++;
+				row = firstHit[0];
+				column = firstHit[1];
+				continueGuess(map, row, column);
 			}
 			else
 			{
-				if (map.hit(column, row + 1))
+				if (map.hit(row, column + 1))
 				{
 					lastHit = false;
 				}
 				else
 				{
 					lastHit = true;
+					lastGuess[1] = column + 1;
 					return direction;
 				}
 			}
 		}
-		if (direction == 3)
+		else if (direction == 2)
 		{
-			if (map.checkGuess(column - 1, row) == " -")
+			if (row + 1 >= 11)
 			{
-				map.miss(column - 1, row);
-				lastHit = false;
+				direction++;
+				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(column - 1, row) == " 0" || map.checkGuess(column - 1, row) == " X")
+			if (map.checkGuess(row + 1, column) == " -")
+			{
+				map.miss(row + 1, column);
+				direction = 4;
+				lastGuess[0] = firstHit[0];
+				lastGuess[1] = firstHit[1];
+			}
+			else if (map.checkGuess(row  + 1, column) == " 0" || map.checkGuess(row + 1, column) == " X")
+			{
+				//go back to first hit
+				direction++;
+				row = firstHit[0];
+				column = firstHit[1];
+				continueGuess(map, row, column);
+			}
+			else
+			{
+				if (map.hit(row + 1, column))
+				{
+					lastHit = false;
+				}
+				else
+				{
+					lastHit = true;
+					lastGuess[0] = row + 1;
+					return direction;
+				}
+			}
+		}
+		else if (direction == 3)
+		{
+			if (column - 1 <= 0)
+			{
+				direction++;
+				continueGuess(map, row, column);
+			}
+			if (map.checkGuess(row, column - 1) == " -")
+			{
+				map.miss(row, column - 1);
+				direction = 1;
+				lastGuess[0] = firstHit[0];
+				lastGuess[1] = firstHit[1];
+			}
+			else if (map.checkGuess(row, column - 1) == " 0" || map.checkGuess(row, column - 1) == " X")
+			{
+				//go back to first hit
+				direction++;
+				row = firstHit[0];
+				column = firstHit[1];
+				continueGuess(map, row, column);
+			}
+			else
+			{
+				if (map.hit(row, column - 1))
+				{
+					lastHit = false;
+				}
+				else
+				{
+					lastHit = true;
+					lastGuess[1] = column - 1;
+					return direction;
+				}
+			}
+		}
+		else if (direction == 4)
+		{
+			if (row - 1 <= 0)
+			{
+				direction = 1;
+				continueGuess(map, row, column);
+			}
+			if (map.checkGuess(row - 1, column) == " -")
+			{
+				map.miss(row - 1, column);
+				direction = 2;
+				lastGuess[0] = firstHit[0];
+				lastGuess[1] = firstHit[1];
+			}
+			else if (map.checkGuess(row - 1, column) == " 0" || map.checkGuess(row - 1, column) == " X")
 			{
 				//go back to first hit
 				direction = 1;
-				column = firstHit[0];
-				row = firstHit[1];
-				continueGuess(map, column, row, direction);
+				row = firstHit[0];
+				column = firstHit[1];
+				continueGuess(map, row, column);
 			}
 			else
 			{
-				if (map.hit(column - 1, row))
+				if (map.hit(row - 1, column))
 				{
 					lastHit = false;
 				}
 				else
 				{
 					lastHit = true;
-					return direction;
-				}
-			}
-		}
-		if (direction == 4)
-		{
-			if (map.checkGuess(column, row - 1) == " -")
-			{
-				map.miss(column, row - 1);
-				lastHit = false;
-			}
-			if (map.checkGuess(column, row - 1) == " 0" || map.checkGuess(column, row - 1) == " X")
-			{
-				//go back to first hit
-				direction = 2;
-				column = firstHit[0];
-				row = firstHit[1];
-				continueGuess(map, column, row, direction);
-			}
-			else
-			{
-				if (map.hit(column, row - 1))
-				{
-					lastHit = false;
-				}
-				else
-				{
-					lastHit = true;
+					lastGuess[0] = row - 1;
 					return direction;
 				}
 			}
