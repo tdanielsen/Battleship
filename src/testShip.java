@@ -22,12 +22,14 @@ public class testShip
 //			newMap.addShip(2, 3, 4, 3, " S", 3);
 //			newMap.addShip(5, 5, 5, 6, " P", 2);
 //		newMap.printMap();
-		while (newMap.hasWon() == false)
-		{
-			newai.makeGuess(newMap);
-			newMap.printMap();
-		}	
+//		while (newMap.hasWon() == false)
+//		{
+//			newai.makeGuess(newMap);
+//			newMap.printMap();
+//		}	
 		newMap.printMap();
+		GuessingMap topMap = new GuessingMap();
+		topMap.printMap();
 		Random rd = new Random();
 		int randNum = rd.nextInt(10) + 1;
 		System.out.println(randNum);

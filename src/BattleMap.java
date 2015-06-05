@@ -92,16 +92,34 @@ public class BattleMap
 		{
 			if (Math.abs(startR - endR) == shipSize - 1)
 			{
-				for (int i = startR; i <= endR; i++)
+				if (endR > startR)
 				{
-					if (map[i][startC] == " -")
+					for (int i = startR; i <= endR; i++)
 					{
-						map[i][startC] = ship;
+						if (map[i][startC] == " -")
+						{
+							map[i][startC] = ship;
+						}
+						else
+						{
+							System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
+							break;
+						}
 					}
-					else
+				}
+				else
+				{
+					for (int i = endR; i <= startR; i++)
 					{
-						System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
-						break;
+						if (map[i][startC] == " -")
+						{
+							map[i][startC] = ship;
+						}
+						else
+						{
+							System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
+							break;
+						}
 					}
 				}
 			}
@@ -111,16 +129,34 @@ public class BattleMap
 		{
 			if (Math.abs(startC - endC) == shipSize - 1)
 			{
-				for (int i = startC; i <= endC; i++)
+				if (endC > startC)
 				{
-					if (map[startR][i] == " -")
+					for (int i = startC; i <= endC; i++)
 					{
-						map[startR][i] = ship;
+						if (map[startR][i] == " -")
+						{
+							map[startR][i] = ship;
+						}
+						else
+						{
+							System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
+							break;
+						}
 					}
-					else
+				}
+				else
+				{
+					for (int i = endC; i <= startC; i++)
 					{
-						System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
-						break;
+						if (map[startR][i] == " -")
+						{
+							map[startR][i] = ship;
+						}
+						else
+						{
+							System.out.println("Error: Illegal placement of ship @ " + startR + ", " + startC);
+							break;
+						}
 					}
 				}
 			}
@@ -128,7 +164,7 @@ public class BattleMap
 	}
 	public boolean okPlacementColumn(int row, int column, int endRow)
 	{
-		if (endRow >= 11)
+		if (endRow >= 11 || endRow <= 0)
 		{
 			return false;
 		}
@@ -136,15 +172,16 @@ public class BattleMap
 		{
 			if (!(map[i][column] == " -"))
 			{
+//				System.out.println("Cannot place ship at " + i + ", " + column);
 				return false;
 			}
 		}
-		System.out.println("Okay to place @ " + row + ", " + column);
+//		System.out.println("Okay to place @ " + row + ", " + column);
 		return true;
 	}
 	public boolean okPlacementRow(int row, int column, int endColumn)
 	{
-		if (endColumn >= 11)
+		if (endColumn >= 11 || endColumn <= 0)
 		{
 			return false;
 		}
@@ -152,10 +189,11 @@ public class BattleMap
 		{
 			if (!(map[row][i] == " -"))
 			{
+//				System.out.println("Cannot place ship at " + i + ", " + column);
 				return false;
 			}
 		}
-		System.out.println("Okay to place @ " + row + ", " + column);
+//		System.out.println("Okay to place @ " + row + ", " + column);
 		return true;
 	}
 	public String checkGuess(int row, int column)
