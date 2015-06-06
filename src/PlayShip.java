@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -8,7 +9,7 @@ public class PlayShip
 		Scanner scanner = new Scanner(System.in); // for console input
 
 		boolean done = false;
-		System.out.println("Welcom to Navel Battle!");
+		System.out.println("Welcome to Navel Battle!");
 		while (!done)
 		{
 			System.out.print("Please enter a command (play, help, quit): ");
@@ -64,29 +65,64 @@ public class PlayShip
 				System.out.println("Place input the starting coordinates for the Aircraft carrier and "
 						+ "the direction you'd like it to go (N, E, W, S): ");
 				input = scanner.nextLine();
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				direction = firstSpace.nextToken();
-				if (!playerPlacement(row, column, " A", 5, direction, userMap))
+				try
 				{
-					System.out.println("Invaild ship placement");
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					direction = firstSpace.nextToken();
+					if (column == 0)
+					{
+						System.out.println("Input error");
+						i--;
+					}
+					else if (!playerPlacement(row, column, " A", 5, direction, userMap))
+					{
+						System.out.println("Invaild ship placement");
+						i--;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
 					i--;
 				}
-				
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
+					i--;
+				}
 			}
 			else if (i == 1)
 			{
 				System.out.println("Place input the starting coordinates for the Battleship and "
 						+ "the direction you'd like it to go (N, E, W, S): ");
 				input = scanner.nextLine();
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				direction = firstSpace.nextToken();
-				if (!playerPlacement(row, column, " B", 4, direction, userMap))
+				try
 				{
-					System.out.println("Invaild ship placement");
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					direction = firstSpace.nextToken();
+					if (column == 0)
+					{
+						System.out.println("Input error");
+						i--;
+					}
+					else if (!playerPlacement(row, column, " B", 4, direction, userMap))
+					{
+						System.out.println("Invaild ship placement");
+						i--;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
+					i--;
+				}
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
 					i--;
 				}
 			}
@@ -95,13 +131,31 @@ public class PlayShip
 				System.out.println("Place input the starting coordinates for the Destoryer and "
 						+ "the direction you'd like it to go (N, E, W, S): ");
 				input = scanner.nextLine();
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				direction = firstSpace.nextToken();
-				if (!playerPlacement(row, column, " D", 3, direction, userMap))
+				try
 				{
-					System.out.println("Invaild ship placement");
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					direction = firstSpace.nextToken();
+					if (column == 0)
+					{
+						System.out.println("Input error");
+						i--;
+					}
+					else if (!playerPlacement(row, column, " D", 3, direction, userMap))
+					{
+						System.out.println("Invaild ship placement");
+						i--;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
+					i--;
+				}
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
 					i--;
 				}
 			}
@@ -110,13 +164,31 @@ public class PlayShip
 				System.out.println("Place input the starting coordinates for the Sub and "
 						+ "the direction you'd like it to go (N, E, W, S): ");
 				input = scanner.nextLine();
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				direction = firstSpace.nextToken();
-				if (!playerPlacement(row, column, " S", 3, direction, userMap))
+				try
 				{
-					System.out.println("Invaild ship placement");
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					direction = firstSpace.nextToken();
+					if (column == 0)
+					{
+						System.out.println("Input error");
+						i--;
+					}
+					else if (!playerPlacement(row, column, " S", 3, direction, userMap))
+					{
+						System.out.println("Invaild ship placement");
+						i--;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
+					i--;
+				}
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
 					i--;
 				}
 			}
@@ -125,52 +197,82 @@ public class PlayShip
 				System.out.println("Place input the starting coordinates for the Patrol Boat and "
 						+ "the direction you'd like it to go (N, E, W, S): ");
 				input = scanner.nextLine();
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				direction = firstSpace.nextToken();
-				if (!playerPlacement(row, column, " P", 2, direction, userMap))
+				try
 				{
-					System.out.println("Invaild ship placement");
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					direction = firstSpace.nextToken();
+					if (column == 0)
+					{
+						System.out.println("Input error");
+						i--;
+					}
+					else if (!playerPlacement(row, column, " P", 2, direction, userMap))
+					{
+						System.out.println("Invaild ship placement");
+						i--;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
+					i--;
+				}
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
 					i--;
 				}
 			}
 		}
+		System.out.println("The game has 'set sail'! Type 'give up' if you wish to end early.");
 		while (compMap.hasWon() == false || userMap.hasWon() == false)
 		{
-			System.out.println("It is your turn!");
+			System.out.println("It is your turn! Remember it is row,column order!");
 			topMap.printMap();
 			userMap.printMap();
 			input = scanner.nextLine();
 			if (!input.equalsIgnoreCase("give up"))
 			{
-				StringTokenizer firstSpace = new StringTokenizer(input, ",");
-				row = Integer.parseInt(firstSpace.nextToken());
-				column = letterConverter(firstSpace.nextToken());
-				if (row >= 11 || row <= 0 || column >= 11 || row <= 0)
-				{
-					System.out.println("Cannot guess there. Please guess between 1-10 and A-J");
-				}
-				else if (compMap.checkGuess(row, column) == " 0" || compMap.checkGuess(row, column) == " X")
-				{
-					System.out.println("You have already guessed there, please guess again!");
-				}
-				else if (compMap.checkGuess(row, column) == " -")
-				{
-					topMap.guess(compMap, row, column);
-					compMap.miss(row, column);
-					newai.makeGuess(userMap);
-				}
-				else
-				{
-					if(compMap.hit(row, column))
-					{
-						System.out.println("You have sunk their navy boat!");
-					}
-					topMap.guess(compMap, row, column);
-					newai.makeGuess(userMap);
-				}
 				
+				try
+				{
+					StringTokenizer firstSpace = new StringTokenizer(input, ",");
+					row = Integer.parseInt(firstSpace.nextToken());
+					column = letterConverter(firstSpace.nextToken());
+					if (row >= 11 || row <= 0 || column >= 11 || row <= 0)
+					{
+						System.out.println("Cannot guess there. Please guess between 1-10 and A-J");
+					}
+					else if (compMap.checkGuess(row, column) == " 0" || compMap.checkGuess(row, column) == " X")
+					{
+						System.out.println("You have already guessed there, please guess again!");
+					}
+					else if (compMap.checkGuess(row, column) == " -")
+					{
+						topMap.guess(compMap, row, column);
+						compMap.miss(row, column);
+						newai.makeGuess(userMap);
+					}
+					else
+					{
+						if(compMap.hit(row, column))
+						{
+							System.out.println("You have sunk their navy boat!");
+						}
+						topMap.guess(compMap, row, column);
+						newai.makeGuess(userMap);
+					}
+				}
+				catch (NumberFormatException e)
+				{
+					System.out.println("Input error! Make sure that you put in you guess in row,column format!");
+				}
+				catch (NoSuchElementException e)
+				{
+					System.out.println("Input error! Make sure you have a row, column, AND direction");
+				}			
 			}
 			else
 			{
