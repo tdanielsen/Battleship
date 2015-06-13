@@ -256,11 +256,7 @@ public class BattleMap
 	}
 	public boolean hasWon()
 	{
-		if (aircraftHp == 0 && battleshipHp == 0 && destroyerHp == 0 && subHp == 0 && patrolHp == 0)
-		{
-			return true;
-		}
-		return false;
+		return (aircraftHp == 0 && battleshipHp == 0 && destroyerHp == 0 && subHp == 0 && patrolHp == 0);
 	}
 	public boolean reasonableGuess(int row, int column)
 	{

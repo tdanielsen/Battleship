@@ -227,7 +227,7 @@ public class PlayShip
 			}
 		}
 		System.out.println("The game has 'set sail'! Type 'give up' if you wish to end early.");
-		while (compMap.hasWon() == false || userMap.hasWon() == false)
+		while (compMap.hasWon() == false && userMap.hasWon() == false)
 		{
 			System.out.println("It is your turn! Remember it is row,column order!");
 			topMap.printMap();
@@ -251,7 +251,7 @@ public class PlayShip
 					}
 					else if (compMap.checkGuess(row, column) == " -")
 					{
-						topMap.guess(compMap, row, column);
+						topMap.miss(row, column);
 						compMap.miss(row, column);
 						newai.makeGuess(userMap);
 					}
@@ -261,7 +261,7 @@ public class PlayShip
 						{
 							System.out.println("You have sunk their navy boat!");
 						}
-						topMap.guess(compMap, row, column);
+						topMap.hit(row, column);
 						newai.makeGuess(userMap);
 					}
 				}

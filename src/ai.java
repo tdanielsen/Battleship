@@ -226,7 +226,7 @@ public class ai
 				direction++;
 				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(row, column + 1) == " -")
+			else if (map.checkGuess(row, column + 1) == " -")
 			{
 				map.miss(row, column + 1);
 				direction = 3;
@@ -262,7 +262,7 @@ public class ai
 				direction++;
 				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(row + 1, column) == " -")
+			else if (map.checkGuess(row + 1, column) == " -")
 			{
 				map.miss(row + 1, column);
 				direction = 4;
@@ -298,7 +298,7 @@ public class ai
 				direction++;
 				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(row, column - 1) == " -")
+			else if (map.checkGuess(row, column - 1) == " -")
 			{
 				map.miss(row, column - 1);
 				direction = 1;
@@ -334,7 +334,7 @@ public class ai
 				direction = 1;
 				continueGuess(map, row, column);
 			}
-			if (map.checkGuess(row - 1, column) == " -")
+			else if (map.checkGuess(row - 1, column) == " -")
 			{
 				map.miss(row - 1, column);
 				direction = 2;

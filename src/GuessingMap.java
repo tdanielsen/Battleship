@@ -87,16 +87,24 @@ public class GuessingMap
 		{
 			return false;
 		}
-		else if (compMap.checkGuess(row, column) != " -")
-		{
-			map[row][column] = " X";
-			return true;
-		}
-		else
+		else if (compMap.checkGuess(row, column) == " -")
 		{
 			map[row][column] = " 0";
 			return true;
 		}
+		else
+		{
+			map[row][column] = " X";
+			return true;
+		}
+	}
+	public void miss(int row, int column)
+	{
+		map[row][column] = " 0";
+	}
+	public void hit(int row, int column)
+	{
+		map[row][column] = " X";
 	}
 	public void printMap()
 	{
