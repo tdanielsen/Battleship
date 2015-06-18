@@ -168,12 +168,26 @@ public class BattleMap
 		{
 			return false;
 		}
-		for (int i = row; i <= endRow; i++)
+		if (endRow > row)
 		{
-			if (!(map[i][column] == " -"))
+			for (int i = row; i <= endRow; i++)
 			{
-//				System.out.println("Cannot place ship at " + i + ", " + column);
-				return false;
+				if (!(map[i][column] == " -"))
+				{
+	//				System.out.println("Cannot place ship at " + i + ", " + column);
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for (int i = endRow; i <= row; i++)
+			{
+				if (!(map[i][column] == " -"))
+				{
+	//				System.out.println("Cannot place ship at " + i + ", " + column);
+					return false;
+				}
 			}
 		}
 //		System.out.println("Okay to place @ " + row + ", " + column);
@@ -185,12 +199,26 @@ public class BattleMap
 		{
 			return false;
 		}
-		for (int i = column; i <= endColumn; i++)
+		if (endColumn > column)
 		{
-			if (!(map[row][i] == " -"))
+			for (int i = column; i <= endColumn; i++)
 			{
-//				System.out.println("Cannot place ship at " + i + ", " + column);
-				return false;
+				if (!(map[row][i] == " -"))
+				{
+	//				System.out.println("Cannot place ship at " + i + ", " + column);
+					return false;
+				}
+			}
+		}
+		else
+		{
+			for (int i = endColumn; i <= column; i++)
+			{
+				if (!(map[row][i] == " -"))
+				{
+	//				System.out.println("Cannot place ship at " + i + ", " + column);
+					return false;
+				}
 			}
 		}
 //		System.out.println("Okay to place @ " + row + ", " + column);
