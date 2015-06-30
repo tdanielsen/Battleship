@@ -229,7 +229,7 @@ public class BattleMap
 		return map[row][column];
 	}
 	//rename? true iff a ship is destroyed, false otherwise
-	public boolean hit(int row, int column)
+	public boolean hit(int row, int column, int user)
 	{
 		if (map[row][column] == " A")
 		{
@@ -237,6 +237,11 @@ public class BattleMap
 			map[row][column] = " X";
 			if (aircraftHp == 0)
 			{
+				if (user == 1)
+				{
+					System.out.println("You have sunk their Aircraft carrier!");
+					remaining();
+				}
 				return true;
 			}
 		}
@@ -246,6 +251,11 @@ public class BattleMap
 			map[row][column] = " X";
 			if (battleshipHp == 0)
 			{
+				if (user == 1)
+				{
+					System.out.println("You have sunk their Battleship!");
+					remaining();
+				}
 				return true;
 			}
 		}
@@ -255,6 +265,11 @@ public class BattleMap
 			map[row][column] = " X";
 			if (destroyerHp == 0)
 			{
+				if (user == 1)
+				{
+					System.out.println("You have sunk their Destroyer!");
+					remaining();
+				}
 				return true;
 			}
 		}
@@ -264,6 +279,11 @@ public class BattleMap
 			map[row][column] = " X";
 			if (subHp == 0)
 			{
+				if (user == 1)
+				{
+					System.out.println("You have sunk their Sub!");
+					remaining();
+				}
 				return true;
 			}
 		}
@@ -273,10 +293,38 @@ public class BattleMap
 			map[row][column] = " X";
 			if (patrolHp == 0)
 			{
+				if (user == 1)
+				{
+					System.out.println("You have sunk their Patrol Boat!");
+					remaining();
+				}
 				return true;
 			}
 		}
 		return false;
+	}
+	public void remaining()
+	{
+		if (aircraftHp != 0)
+		{
+			System.out.println("Their Aircraft carrier still remains!");
+		}
+		if (battleshipHp != 0)
+		{
+			System.out.println("Their Battleship still remains!");
+		}
+		if (destroyerHp != 0)
+		{
+			System.out.println("Their Destroyer still remains!");
+		}
+		if (subHp != 0)
+		{
+			System.out.println("Their Sub still remains!");
+		}
+		if (patrolHp != 0)
+		{
+			System.out.println("Their Patrol Boat still remains!");
+		}
 	}
 	public void miss(int row, int column)
 	{

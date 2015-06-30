@@ -77,7 +77,7 @@ public class ai
 			}
 			else
 			{
-				if (map.hit(row, column))
+				if (map.hit(row, column, 0))
 				{
 					lastHit = false;
 				}
@@ -243,7 +243,7 @@ public class ai
 			}
 			else
 			{
-				if (map.hit(row, column + 1))
+				if (map.hit(row, column + 1, 0))
 				{
 					lastHit = false;
 				}
@@ -279,7 +279,7 @@ public class ai
 			}
 			else
 			{
-				if (map.hit(row + 1, column))
+				if (map.hit(row + 1, column, 0))
 				{
 					lastHit = false;
 				}
@@ -315,7 +315,7 @@ public class ai
 			}
 			else
 			{
-				if (map.hit(row, column - 1))
+				if (map.hit(row, column - 1, 0))
 				{
 					lastHit = false;
 				}
@@ -351,7 +351,7 @@ public class ai
 			}
 			else
 			{
-				if (map.hit(row - 1, column))
+				if (map.hit(row - 1, column, 0))
 				{
 					lastHit = false;
 				}
